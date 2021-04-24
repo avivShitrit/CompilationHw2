@@ -1,0 +1,24 @@
+%{
+#define YYSTYPE int
+int yylex();
+void yyerror(const char*);
+%}
+
+%token 
+
+%%
+
+
+%%
+
+
+int main()
+{
+	return yyparse();
+}
+
+int yyerror(const char * message)
+{
+	output::errorSyn(yylineno);
+	exit(0);
+}
