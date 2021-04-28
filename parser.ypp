@@ -62,7 +62,7 @@ RetType:
     | VOID{output::printProductionRule(6);};
 
 Formals:
-    EPSILON{output::printProductionRule(7);};
+    {output::printProductionRule(7);};
     | FormalsList{output::printProductionRule(8);};
 
 FormalsList:
