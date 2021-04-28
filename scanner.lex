@@ -1,7 +1,7 @@
 %{
 #define YYSTYPE int
 #include "parser.tab.hpp"
-// #include "output.hpp"
+#include "output.hpp"
 %}
 
 %option noyywrap
@@ -9,8 +9,6 @@
 
 NUM     [0]|([1-9][0-9]*)
 ID	    [A-Za-z][A-Za-z0-9]*
-RELOP   ==|!=|<=|>=|<|>
-BINOP   \+|\-|\*|\/
 COMMENT \/\/[^\r\n]*[\r|\n|\r\n]?
 WHITESPACE ([\t\n\r ])
 STRING  \"([^\n\r\"\\]|\\[rnt"\\])+\"
@@ -43,13 +41,15 @@ default     return DEFAULT;
 (\{)        return LBRACE;
 (\})        return RBRACE;
 =           return ASSIGN;
-{RELOP}     return RELOP;
-{BINOP}     return BINOP;
+(==)|(!=)   return RELOPL;
+(<)|(>)|(<=)|(>=)   return RELOPN;
+\+|\-       return ADD;
+\*|\/       return MUL;
 {ID}        return ID;
 {NUM}       return NUM;
 {WHITESPACE} ;
 {STRING}    return STRING;
 {COMMENT}   ;
-.           return WRONGCHAR;
+.           {output::errorLex(yylineno); exit(0);};
 
 %%
